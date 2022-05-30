@@ -1,4 +1,48 @@
 ﻿@page
+@using RazorPages2.Models
 @model RazorPages2.Pages.LibraryModel
 @{
+    ViewData["Title"] = "Library";
+}
+
+<h1>Library 📕📔</h1>
+<form method="post" class="card p-3">
+    <div class="row">
+        <div asp-validation-summary="All"></div>
+    </div>
+    <div class="form-group mb-0 align-middle">
+        <lable asp-for="NewBook.Name">Name</lable>
+        <input type="text" asp-for="NewBook.Name" class="mr-5" />
+        <lable asp-for="NewBook.Genre">Genre</lable>
+        <select asp-for="NewBook.Genre" asp-items="Html.GetEnumSelectList<PizzaSize>() " class="mr-5"></select>
+        <button class="btn btn-primary">Add</button>
+    </div>
+</form>
+<table class="table mt-5">
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Genre</th>
+            <th scope="col">Delete</th>
+        </tr>
+    </thead>
+    @foreach (var book in Model.books)
+    {
+        <tr>
+            <td>
+                @book.Name
+            </td>
+            <td>
+                @book.Genre
+            </td>
+            <td>
+                <form method="post" asp-page-handler="Delete" asp-route-id="@book.Id">
+                    <button class="btn btn-danger">Delete</button>
+                </form>
+            </td>
+        </tr>
+    }
+</table>
+@section Scripts{
+    <partial name ="_ValidationScriptsPartial" />
 }
